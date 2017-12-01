@@ -27,11 +27,14 @@ public class Scanner implements Runnable {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
 
-	private void scanDir(File dir) throws IOException, ParseException {
+	private void scanDir(File dir) throws IOException, ParseException, InterruptedException {
 		File[] files = dir.listFiles();
 		for (int i=0; i<files.length; i++){
 			if (files[i].isFile()	&&	files[i].length() < Constants.MAX_SIZE){
@@ -51,7 +54,18 @@ public class Scanner implements Runnable {
 					break;
 				case Constants.MALICIOUS:
 					System.out.println(files[i]+" IS MALICIOUS");
-					// TODO
+					File file = files[i];
+					Thread notification = new Thread(new Runnable(){
+
+						@Override
+						public void run() {
+							UI.foundMalicious(file);
+							UI.maliciousNotification.setVisible(true);
+						}
+						
+					});
+					notification.start();
+					notification.join();
 					
 				}
 			}

@@ -6,11 +6,14 @@ import javax.swing.filechooser.FileSystemView;
 
 public class driveHandler {
 	private static File[] currentRoots = File.listRoots();
+	private Thread listener;
+	private boolean running;
 	
 	public void listen() {
-	    Thread listener = new Thread(new Runnable() {
+		running = true;
+	    listener = new Thread(new Runnable() {
 	        public void run() {
-	            while (true) {
+	            while (running) {
 	                try {
 	                    Thread.sleep(100);
 	                } catch (InterruptedException e) {
@@ -33,6 +36,11 @@ public class driveHandler {
 	        }
 	    });
 	    listener.start();
+	}
+	
+	
+	public void stop(){
+		running = false;
 	}
 	
 	private static boolean validDrive(File f){

@@ -1,5 +1,6 @@
 package test;
 
+import java.awt.EventQueue;
 import java.io.IOException;
 
 import org.json.simple.JSONObject;
@@ -8,6 +9,7 @@ import org.json.simple.parser.ParseException;
 
 import App.VTquerier;
 import App.driveHandler;
+import App.UI;
 //import App.Constants;
 import App.VTparser;
 
@@ -15,9 +17,18 @@ public class Tester {
 
 	public static void main(String[] args) {
 		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				UI.welcome();
+				UI.welcomeFrame.setVisible(true);
+			}
+		});
 		
+		
+		/**************************************
 		driveHandler x = new driveHandler();
 		x.listen();
+		**************************************/
 		
 		
 		
