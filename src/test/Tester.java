@@ -1,8 +1,10 @@
 package test;
 
 import java.awt.EventQueue;
+import java.io.File;
 import java.io.IOException;
 
+import org.apache.http.client.ClientProtocolException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -17,12 +19,30 @@ public class Tester {
 
 	public static void main(String[] args) {
 		
+		
+		/***************************************
+		File file = new File ("C:/Users/Kosta/Desktop/RESOURCES.txt");
+		try {
+			System.out.println(new VTquerier().scanFile(file));
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		***************************************/
+		
+		
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				UI.welcome();
 				UI.welcomeFrame.setVisible(true);
 			}
 		});
+		
 		
 		
 		/**************************************

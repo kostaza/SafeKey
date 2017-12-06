@@ -8,12 +8,15 @@ import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.AWTException;
+import java.awt.CheckboxMenuItem;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.UIManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.awt.Toolkit;
@@ -91,7 +94,17 @@ public class UI {
 				}
 				
 			});
+			CheckboxMenuItem emul = new CheckboxMenuItem("Enable Emulation");
+			emul.addItemListener(new ItemListener(){
+
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					Scanner.emulation = !Scanner.emulation;
+				}
+				
+			});
 			
+			menu.add(emul);
 			menu.add(stopItem);
 			trayIcon.setPopupMenu(menu);
 			

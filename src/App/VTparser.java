@@ -25,5 +25,12 @@ public class VTparser {
 			return Constants.UNAVAILABLE;
 		}
 	}
+	
+	public int responseCode(String response) throws ParseException{
+		JSONObject json = (JSONObject) new JSONParser().parse(response);
+		int code = Integer.parseInt(json.get("response_code").toString());
+		
+		return code;
+	}
 
 }

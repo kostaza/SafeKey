@@ -10,6 +10,7 @@ import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 
 public class Scanner implements Runnable {
+	public static boolean emulation = false;
 	
 	private File drive;
 	
@@ -48,30 +49,43 @@ public class Scanner implements Runnable {
 				case Constants.BENIGN:
 					System.out.println(files[i]+" IS BENIGN");
 					break;
+					
 				case Constants.UNAVAILABLE:
 					System.out.println(files[i]+" IS UNAVAILABLE");
-					// TODO
+					if (emulation && parser.responseCode(querier.scanFile(files[i]))==1){
+						while (parser.responseCode(querier.getReport(md5.toString())) != 1) {}
+						verdict = parser.parseReport(querier.getReport(md5.toString()));
+						if (verdict == Constants.MALICIOUS){
+							System.out.println(files[i]+" IS MALICIOUS");
+							maliciousHandler(files[1]);
+						}
+						else System.out.println(files[i]+" IS BENIGN");
+					}
 					break;
+					
 				case Constants.MALICIOUS:
 					System.out.println(files[i]+" IS MALICIOUS");
-					File file = files[i];
-					Thread notification = new Thread(new Runnable(){
-
-						@Override
-						public void run() {
-							UI.foundMalicious(file);
-							UI.maliciousNotification.setVisible(true);
-						}
-						
-					});
-					notification.start();
-					notification.join();
+					maliciousHandler(files[i]);
 					
 				}
 			}
 			else if (files[i].isDirectory()) scanDir(files[i]);
 		}
 	
+	}
+	
+	private void maliciousHandler(File file) throws InterruptedException{
+		Thread notification = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				UI.foundMalicious(file);
+				UI.maliciousNotification.setVisible(true);
+			}
+			
+		});
+		notification.start();
+		notification.join();
 	}
 
 }
