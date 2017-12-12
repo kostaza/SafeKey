@@ -6,8 +6,14 @@ import org.json.simple.parser.ParseException;
 
 public class VTparser {
 	
-	public int parseReport(String response) throws ParseException{
-		JSONObject json = (JSONObject) new JSONParser().parse(response);
+	public int parseReport(String response){
+		JSONObject json;
+		try {
+			json = (JSONObject) new JSONParser().parse(response);
+		} catch (ParseException e) {
+			SafeKey.logger.warning("Report parsing failed!");
+			return Constants.UNAVAILABLE;
+		}
 		int code = Integer.parseInt(json.get("response_code").toString());
 		
 		switch (code){
@@ -26,8 +32,14 @@ public class VTparser {
 		}
 	}
 	
-	public int responseCode(String response) throws ParseException{
-		JSONObject json = (JSONObject) new JSONParser().parse(response);
+	public int responseCode(String response){
+		JSONObject json;
+		try {
+			json = (JSONObject) new JSONParser().parse(response);
+		} catch (ParseException e) {
+			SafeKey.logger.warning("Response parsing failed!");
+			return -1;
+		}
 		int code = Integer.parseInt(json.get("response_code").toString());
 		
 		return code;

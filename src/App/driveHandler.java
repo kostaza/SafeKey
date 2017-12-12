@@ -11,6 +11,7 @@ public class driveHandler {
 	
 	public void listen() {
 		running = true;
+		SafeKey.logger.info("Drives scanner started");
 	    listener = new Thread(new Runnable() {
 	        public void run() {
 	            while (running) {
@@ -23,13 +24,13 @@ public class driveHandler {
 	                	currentRoots = File.listRoots();
 	                	File root = currentRoots[currentRoots.length-1];
 	                	if (validDrive(root)){
-	                		System.out.println("USB drive "+root+" inserted");
+	                		SafeKey.logger.severe("USB drive "+root+" inserted");
 	                		new Scanner(root).run();
 	                	}
 	                } 
 	                else if (File.listRoots().length < currentRoots.length) {
 	                	currentRoots = File.listRoots();
-	                	// TODO signal to scanner that drive was removed
+	                	SafeKey.logger.severe("USB drive was removed");
 	                }
 
 	            }
@@ -41,6 +42,7 @@ public class driveHandler {
 	
 	public void stop(){
 		running = false;
+		SafeKey.logger.info("Drives scanner stopped");
 	}
 	
 	private static boolean validDrive(File f){

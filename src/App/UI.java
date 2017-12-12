@@ -18,7 +18,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.IOException;
 import java.awt.Toolkit;
 import javax.swing.JTextPane;
 
@@ -60,16 +59,9 @@ public class UI {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				SafeKey.logger.info("SafeKey monitoring started! Emulation Off.");
 				handler.listen();
-				try {
-					addTray();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (AWTException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				addTray();
 				welcomeFrame.dispose();
 			}
 			
@@ -78,7 +70,7 @@ public class UI {
 		
 	}
 	
-	private static void addTray() throws IOException, AWTException{
+	private static void addTray(){
 		if (SystemTray.isSupported()){
 			TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage("resources\\icon.png"), "SafeKey");
 			
@@ -90,6 +82,8 @@ public class UI {
 				public void actionPerformed(ActionEvent e) {
 					handler.stop();
 					SystemTray.getSystemTray().remove(trayIcon);
+					SafeKey.logger.info("SafeKey Stopped! Exiting...");
+					SafeKey.closeLogger();
 					System.exit(0);
 				}
 				
@@ -100,6 +94,7 @@ public class UI {
 				@Override
 				public void itemStateChanged(ItemEvent e) {
 					Scanner.emulation = !Scanner.emulation;
+					SafeKey.logger.info("Emulation is ON!");
 				}
 				
 			});
@@ -108,7 +103,12 @@ public class UI {
 			menu.add(stopItem);
 			trayIcon.setPopupMenu(menu);
 			
-			SystemTray.getSystemTray().add(trayIcon);
+			try {
+				SystemTray.getSystemTray().add(trayIcon);
+			} catch (AWTException e1) {
+				SafeKey.logger.warning("Failed to add a tray - desktop system tray is missing");
+				e1.printStackTrace();
+			}
 		}
 	}
 	
