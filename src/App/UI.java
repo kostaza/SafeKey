@@ -20,11 +20,14 @@ import java.awt.event.ItemListener;
 import java.io.File;
 import java.awt.Toolkit;
 import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
 public class UI {
 	private static driveHandler handler = new driveHandler();
 	public static JFrame welcomeFrame;
 	public static JDialog maliciousNotification;
+	public static JDialog warning;
 	
 	
 	public static void welcome(){
@@ -106,9 +109,16 @@ public class UI {
 			try {
 				SystemTray.getSystemTray().add(trayIcon);
 			} catch (AWTException e1) {
-				SafeKey.logger.warning("Failed to add a tray - desktop system tray is missing");
+				SafeKey.logger.severe("Failed to add a tray - desktop system tray is missing");
+				warningDialog("<center>Failed to add tray - system tray is missing!</center><br><center>Emulation and graceful stop won't be available</center>");
+				warning.setVisible(true);
 				e1.printStackTrace();
 			}
+		}
+		else {
+			SafeKey.logger.severe("Failed to add a tray - system tray is not supported");
+			warningDialog("<center>Failed to add tray - system tray is not supported!</center><br><center>Emulation and graceful stop won't be available</center>");
+			warning.setVisible(true);
 		}
 	}
 	
@@ -147,5 +157,29 @@ public class UI {
 		cautiousMessage.setFont(new Font("Bookman Old Style", Font.BOLD, 10));
 		cautiousMessage.setBounds(10, 112, 364, 20);
 		maliciousNotification.getContentPane().add(cautiousMessage);
+	}
+	
+	
+	public static void warningDialog (String message){
+		warning = new JDialog();
+		warning.setAlwaysOnTop(true);
+		warning.setModal(true);
+		warning.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\icon.jpg"));
+		warning.setTitle("SafeKey - Error!");
+		warning.setBounds(400, 200, 300, 200);
+		warning.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		warning.getContentPane().setLayout(null);
+		
+		JLabel warningMessage = new JLabel("<html>"+ message + "</html>");
+		warningMessage.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		warningMessage.setHorizontalAlignment(SwingConstants.CENTER);
+		warningMessage.setBounds(10, 90, 264, 61);
+		warning.getContentPane().add(warningMessage);
+		
+		JLabel warningSign = new JLabel("");
+		warningSign.setIcon(new ImageIcon("resources\\warning.jpg"));
+		warningSign.setHorizontalAlignment(SwingConstants.CENTER);
+		warningSign.setBounds(10, 11, 264, 68);
+		warning.getContentPane().add(warningSign);
 	}
 }

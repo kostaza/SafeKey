@@ -34,7 +34,9 @@ public class Scanner implements Runnable {
 					md5 = Files.hash(files[i], Hashing.md5());
 				} catch (IOException e1) {
 					SafeKey.logger.severe(files[i] + " IS UNAVAILABLE");
-					SafeKey.logger.warning("Enable to calculate hash for: " + files[i] + "\nSkipping...");
+					SafeKey.logger.warning("Unable to calculate hash for: " + files[i] + "\nSkipping...");
+					UI.warningDialog("<center>Unable to calculate hash for the following file:</center><br><center>" + files[i] + "</center>");
+					UI.warning.setVisible(true);
 					continue;
 				}
 				int verdict = parser.parseReport(querier.getReport(md5.toString()));
@@ -56,8 +58,9 @@ public class Scanner implements Runnable {
 							public void run() {
 								while (parser.responseCode(querier.getReport(hash.toString())) != 1) {
 									if (parser.responseCode(querier.getReport(hash.toString())) == -1){
-										SafeKey.logger.warning("Emulation for: "+ files[index] + " failed");
-										//TODO UI notification
+										SafeKey.logger.severe("Emulation for: "+ files[index] + " failed");
+										UI.warningDialog("<center>Emulation failed for the following file:</center><br><center>" + files[index] + "</center>");
+										UI.warning.setVisible(true);
 										return;
 									}
 								}
@@ -67,7 +70,11 @@ public class Scanner implements Runnable {
 									maliciousHandler(files[index]);
 								}
 								else if (verdict == Constants.BENIGN) SafeKey.logger.info("Emulation result: "+ files[index] + " IS BENIGN");
-									else SafeKey.logger.info("Emulation result: "+ files[index] + " IS UNAVAILABLE"); //TODO UI notification
+									else{
+										SafeKey.logger.severe("Emulation result: "+ files[index] + " IS UNAVAILABLE"); 
+										UI.warningDialog("<center>Emulation failed for the following file:</center><br><center>" + files[index] + "</center>");
+										UI.warning.setVisible(true);
+									}
 								
 							}
 							

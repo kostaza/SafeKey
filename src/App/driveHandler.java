@@ -25,7 +25,8 @@ public class driveHandler {
 	                	File root = currentRoots[currentRoots.length-1];
 	                	if (validDrive(root)){
 	                		SafeKey.logger.severe("USB drive "+root+" inserted");
-	                		new Scanner(root).run();
+	                		new Thread(new Scanner(root)).start();
+	                		//new Scanner(root).run();
 	                	}
 	                } 
 	                else if (File.listRoots().length < currentRoots.length) {
@@ -48,10 +49,8 @@ public class driveHandler {
 	private static boolean validDrive(File f){
 		FileSystemView fsv = FileSystemView.getFileSystemView();
 		String type = fsv.getSystemTypeDescription(f);
-		if (type.equalsIgnoreCase("removable disk"))
-			return true;
-		else
-			return false;
+		
+		return type.equalsIgnoreCase("removable disk");
 	}
 
 }

@@ -38,8 +38,8 @@ public class Tester {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				UI.welcome();
-				UI.welcomeFrame.setVisible(true);
+				UI.warningDialog("<center>Connection with remote server was terminated!</center><br><center>Check your internet connection and restart the program</center>");
+				UI.warning.setVisible(true);
 			}
 		});
 		

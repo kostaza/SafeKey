@@ -31,13 +31,18 @@ public class VTquerier {
 		try {
 			apikey = new BufferedReader(new FileReader("apikey.txt")).readLine();
 		} catch (IOException e) {
-			SafeKey.logger.warning("Enable to open apikey file - key was not assigned!");
+			SafeKey.logger.severe("Unable to open apikey file - key was not assigned!");
 		}
 		if (apikey != null)
 			key = apikey;
-		else
+		else{
 			SafeKey.logger.info("SafeKey needs a valid api key to work, please provide one and restart the program\nExiting...");
-			//TODO UI notification and exit
+			UI.warningDialog("<center>Unable to retrieve your API key!</center><br><center>Put your key into 'apikey.txt' and restart the program</center>");
+			UI.warning.setVisible(true);
+			SafeKey.logger.info("Exiting...");
+			SafeKey.closeLogger();
+			System.exit(0);
+		}
 		
 	}
 	
@@ -48,8 +53,11 @@ public class VTquerier {
 			con = new URL(reportURL+key+resource+hash).openConnection();
 			rd = new BufferedReader (new InputStreamReader (con.getInputStream()));
 		} catch (IOException e) {
-			SafeKey.logger.warning("Connection failed! Exiting...");
-			//TODO UI notification and exit
+			SafeKey.logger.severe("Connection failed! Exiting...");
+			UI.warningDialog("<center>Connection to remote server failed!</center><br><center>Check your internet connection and restart the program</center>");
+			UI.warning.setVisible(true);
+			SafeKey.closeLogger();
+			System.exit(0);
 		}
 		
 		StringBuilder response = new StringBuilder();
@@ -59,8 +67,11 @@ public class VTquerier {
 			while ((line = rd.readLine()) != null)
 				response.append(line);
 		} catch (IOException e) {
-			SafeKey.logger.warning("Failed to read the report from the server! Exiting...");
-			//TODO UI notification and exit
+			SafeKey.logger.severe("Failed to read the report from the server! Exiting...");
+			UI.warningDialog("<center>Connection with remote server was terminated!</center><br><center>Check your internet connection and restart the program</center>");
+			UI.warning.setVisible(true);
+			SafeKey.closeLogger();
+			System.exit(0);
 		}
 		
 		return response.toString();
