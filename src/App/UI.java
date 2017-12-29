@@ -23,13 +23,22 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 
+
+/**
+ * An user interface class, responsible for all the on-screen messages and alerts, the system tray icon functionality and the welcome screen.
+ * 
+ * @author Kosta
+ *
+ */
 public class UI {
 	private static driveHandler handler = new driveHandler();
 	public static JFrame welcomeFrame;
 	public static JDialog maliciousNotification;
 	public static JDialog warning;
 	
-	
+	/**
+	 * Constructs the welcome screen of the application
+	 */
 	public static void welcome(){
 		welcomeFrame = new JFrame();
 		welcomeFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\icon.jpg"));
@@ -73,6 +82,9 @@ public class UI {
 		
 	}
 	
+	/**
+	 * Constructs the tray icon and it's functionality
+	 */
 	private static void addTray(){
 		if (SystemTray.isSupported()){
 			TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage("resources\\icon.png"), "SafeKey");
@@ -123,7 +135,10 @@ public class UI {
 	}
 	
 	
-
+	/**
+	 * Constructs the alert window the appears when a malicious file is found
+	 * @param fileName - The specific file that triggered the alert
+	 */
 	public static void foundMalicious(File fileName){
 		maliciousNotification = new JDialog();
 		maliciousNotification.setAlwaysOnTop(true);
@@ -160,6 +175,10 @@ public class UI {
 	}
 	
 	
+	/**
+	 * Constructs the warning window that appears when there was any malfunction in the program.
+	 * @param message - indicates the message that will be displayed within the warning window
+	 */
 	public static void warningDialog (String message){
 		warning = new JDialog();
 		warning.setAlwaysOnTop(true);

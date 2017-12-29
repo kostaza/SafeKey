@@ -4,8 +4,21 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * VTparser object is responsible to parse the report that is fetched in JSON format from VT
+ * 
+ * 
+ * @author Kosta
+ *
+ */
 public class VTparser {
 	
+	/**
+	 * Parses a JSON report form VT for a specific file
+	 * 
+	 * @param response - The report that was fetched from VT
+	 * @return An indicator that states the verdict
+	 */
 	public int parseReport(String response){
 		JSONObject json;
 		try {
@@ -32,6 +45,11 @@ public class VTparser {
 		}
 	}
 	
+	/**
+	 * Retrieves the response code from a given JSON response
+	 * @param response - A given JSON response
+	 * @return The response code, represented as integer
+	 */
 	public int responseCode(String response){
 		JSONObject json;
 		try {

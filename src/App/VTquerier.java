@@ -18,6 +18,13 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+/**
+ * VTquerier object is responsible to fetch the reports from a remote server (VT) and send files for emulation.
+ * A valid private API key should be given inside the apikey.txt file, in order to proceed with the application.
+ * 
+ * @author Kosta
+ *
+ */
 public class VTquerier {
 	private String key = null;
 	private final String reportURL = "https://www.virustotal.com/vtapi/v2/file/report?apikey=";
@@ -25,7 +32,11 @@ public class VTquerier {
 	private final String scanURL = "https://www.virustotal.com/vtapi/v2/file/scan";
 	
 	
+	
 	@SuppressWarnings("resource")
+	/**
+	 * Constructor
+	 */
 	public VTquerier(){
 		String apikey = null;
 		try {
@@ -46,6 +57,12 @@ public class VTquerier {
 		
 	}
 	
+	/**
+	 * Fetches a given file's report from VT
+	 * 
+	 * @param hash - A given file's md5 hash code
+	 * @return the string that represents the report for the given file
+	 */
 	public String getReport(String hash){
 		URLConnection con;
 		BufferedReader rd = null;
@@ -77,6 +94,12 @@ public class VTquerier {
 		return response.toString();
 	}
 	
+	/**
+	 * Sends the given file for an active scan.
+	 * 
+	 * @param file - The given file to scan
+	 * @return the response code from the server
+	 */
 	public String scanFile(File file){
 		FileBody filebody = new FileBody(file, ContentType.DEFAULT_BINARY);
 		MultipartEntityBuilder builder = MultipartEntityBuilder.create();

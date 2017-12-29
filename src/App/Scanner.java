@@ -7,6 +7,14 @@ import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 
+/**
+ * Scanner object is responsible to scan a given drive's files and to act accordingly.
+ * Every valid file is sent to the querier object, which returns the report for the file.
+ * The report is then being sent to the parser object, which returns a verdict indicator for this file.
+ * 
+ * @author Kosta
+ *
+ */
 public class Scanner implements Runnable {
 	public static boolean emulation = false;
 	
@@ -22,6 +30,10 @@ public class Scanner implements Runnable {
 		
 	}
 
+	/**
+	 * Scans a given directory's file and it's directories recursively.
+	 * @param dir - The given directory to scan
+	 */
 	private void scanDir(File dir){
 		File[] files = dir.listFiles();
 		final VTquerier querier = new VTquerier();
@@ -102,6 +114,13 @@ public class Scanner implements Runnable {
 	
 	}
 	
+	
+	/**
+	 * A handler function that responsible to call the appropriate UI window if a malicious file was found,
+	 * and make it visible.
+	 * 
+	 * @param file - the given malicious file
+	 */
 	private synchronized void maliciousHandler(File file){
 		UI.foundMalicious(file);
 		UI.maliciousNotification.setVisible(true);
