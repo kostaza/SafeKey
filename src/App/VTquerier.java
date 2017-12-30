@@ -47,7 +47,7 @@ public class VTquerier {
 		if (apikey != null)
 			key = apikey;
 		else{
-			SafeKey.logger.info("SafeKey needs a valid api key to work, please provide one and restart the program\nExiting...");
+			SafeKey.logger.info("SafeKey needs a valid api key to work, please provide one and restart the program.");
 			UI.warningDialog("<center>Unable to retrieve your API key!</center><br><center>Put your key into 'apikey.txt' and restart the program</center>");
 			UI.warning.setVisible(true);
 			SafeKey.logger.info("Exiting...");

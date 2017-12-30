@@ -41,7 +41,7 @@ public class UI {
 	 */
 	public static void welcome(){
 		welcomeFrame = new JFrame();
-		welcomeFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\icon.jpg"));
+		welcomeFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(handler.getClass().getResource("/resources/icon.jpg")));
 		welcomeFrame.setBackground(Color.LIGHT_GRAY);
 		welcomeFrame.setTitle("SafeKey - USB Drives Scanner");
 		welcomeFrame.setBounds(400, 200, 450, 300);
@@ -87,7 +87,7 @@ public class UI {
 	 */
 	private static void addTray(){
 		if (SystemTray.isSupported()){
-			TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage("resources\\icon.png"), "SafeKey");
+			TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(handler.getClass().getResource("/resources/icon.png")), "SafeKey");
 			
 			PopupMenu menu = new PopupMenu();
 			MenuItem stopItem = new MenuItem("Stop SafeKey");
@@ -143,7 +143,7 @@ public class UI {
 		maliciousNotification = new JDialog();
 		maliciousNotification.setAlwaysOnTop(true);
 		maliciousNotification.setModal(true);
-		maliciousNotification.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\icon.jpg"));
+		maliciousNotification.setIconImage(Toolkit.getDefaultToolkit().getImage(handler.getClass().getResource("/resources/icon.jpg")));
 		maliciousNotification.setBackground(Color.LIGHT_GRAY);
 		maliciousNotification.setTitle("SafeKey - Malicious file found!");
 		maliciousNotification.setBounds(400, 200, 400, 200);
@@ -183,7 +183,7 @@ public class UI {
 		warning = new JDialog();
 		warning.setAlwaysOnTop(true);
 		warning.setModal(true);
-		warning.setIconImage(Toolkit.getDefaultToolkit().getImage("resources\\icon.jpg"));
+		warning.setIconImage(Toolkit.getDefaultToolkit().getImage(handler.getClass().getResource("/resources/icon.jpg")));
 		warning.setTitle("SafeKey - Error!");
 		warning.setBounds(400, 200, 300, 200);
 		warning.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -196,7 +196,7 @@ public class UI {
 		warning.getContentPane().add(warningMessage);
 		
 		JLabel warningSign = new JLabel("");
-		warningSign.setIcon(new ImageIcon("resources\\warning.jpg"));
+		warningSign.setIcon(new ImageIcon(handler.getClass().getResource("/resources/warning.jpg")));
 		warningSign.setHorizontalAlignment(SwingConstants.CENTER);
 		warningSign.setBounds(10, 11, 264, 68);
 		warning.getContentPane().add(warningSign);

@@ -15,7 +15,7 @@ package App;
  * @author Kosta
  * 
  */
-interface Constants {
+public interface Constants {
 	
 	public static final int THRESHOLD = 3;
 	public static final int MALICIOUS = 0;
